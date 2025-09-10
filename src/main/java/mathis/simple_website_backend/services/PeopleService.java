@@ -1,5 +1,6 @@
 package mathis.simple_website_backend.services;
 
+import jakarta.transaction.Transactional;
 import mathis.simple_website_backend.models.People;
 import mathis.simple_website_backend.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

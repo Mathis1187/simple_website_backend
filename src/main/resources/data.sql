@@ -1,13 +1,4 @@
-CREATE TABLE IF NOT EXISTS people
-(
-    id         INT PRIMARY KEY,
-    prenom VARCHAR(50),
-    last_name  VARCHAR(50),
-    email      VARCHAR(100),
-    gender     VARCHAR(20)
-);
-
-INSERT INTO people (id, prenom, last_name, email, gender)
+INSERT INTO people (id, prenom, name, email, gender)
 VALUES (1, 'Finn', 'Schutt', 'fschutt0@dailymail.co.uk', 'Male'),
        (2, 'Martynne', 'Cauldfield', 'mcauldfield1@ebay.co.uk', 'Female'),
        (3, 'Torre', 'Caldecutt', 'tcaldecutt2@clickbank.net', 'Female'),
