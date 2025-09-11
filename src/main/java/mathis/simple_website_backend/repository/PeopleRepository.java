@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PeopleRepository extends JpaRepository<People, Long> {
     public People findPeopleByPrenom(String prenom);
+    public People findPeopleById(int id);
 }

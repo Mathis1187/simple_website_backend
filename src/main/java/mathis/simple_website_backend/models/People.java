@@ -10,7 +10,7 @@ public class People {
     private int id;
 
     private String prenom;
-    private String last_name;
+    private String name;
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -32,11 +32,11 @@ public class People {
     }
 
     public String getLast_name() {
-        return last_name;
+        return name;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLast_name(String name) {
+        this.name = name;
     }
 
     public Gender getGender() {
