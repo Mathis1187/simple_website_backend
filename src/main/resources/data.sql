@@ -30,7 +30,7 @@ VALUES (1, 'Finn', 'Schutt', 'fschutt0@dailymail.co.uk', 'Male'),
        (29, 'Hobie', 'Tomalin', 'htomalins@businesswire.com', 'Male'),
        (30, 'Culver', 'Muldownie', 'cmuldowniet@mozilla.com', 'Male');
 
-INSERT INTO Series (id, titre, genre, nbEpisodes, note)
+INSERT INTO Series (id, titre, genre, nb_episodes, note)
 VALUES (1, 'Breaking Bad', 'Drame', 62, 9.5),
        (2, 'Stranger Things', 'Science-fiction', 42, 8.7),
        (3, 'Game of Thrones', 'Fantasy', 73, 9.2),
