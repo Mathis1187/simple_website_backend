@@ -1,4 +1,5 @@
 package mathis.simple_website_backend.controller;
+
 import mathis.simple_website_backend.models.Series;
 import mathis.simple_website_backend.repository.PeopleRepository;
 import mathis.simple_website_backend.repository.SeriesRepository;
@@ -11,6 +12,7 @@ import mathis.simple_website_backend.models.People;
 
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/series")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -52,12 +54,10 @@ public class SeriesController {
 
     @GetMapping("/search")
     public List<Series> search(@RequestParam(required = false) String genre) {
-        List<Series> result;
         if (genre == null || genre.isEmpty()) {
-            result = SeriesRepository.findAll();
+            return seriesRepository.findAll();
         } else {
-            result = SeriesRepository.findSeriesByGenre(genre);
+            return seriesRepository.findSeriesByGenreIgnoreCase(genre);
         }
-        return result;
     }
 }
