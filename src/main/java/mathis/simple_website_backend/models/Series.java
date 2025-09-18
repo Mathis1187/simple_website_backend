@@ -1,5 +1,6 @@
 package mathis.simple_website_backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class Series {
     private float note;
 
     @ManyToMany(mappedBy = "series")
+    @JsonIgnore
     private Set<People> peoples = new HashSet<>();
 
     public int getId() {
@@ -57,5 +59,13 @@ public class Series {
 
     public void setNote(float note) {
         this.note = note;
+    }
+
+    public Set<People> getPeoples() {
+        return peoples;
+    }
+
+    public void setPeoples(Set<People> peoples) {
+        this.peoples = peoples;
     }
 }
