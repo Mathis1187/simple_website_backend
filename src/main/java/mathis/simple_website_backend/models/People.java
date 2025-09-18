@@ -2,6 +2,9 @@ package mathis.simple_website_backend.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class People {
 
@@ -14,6 +17,14 @@ public class People {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @ManyToMany
+    @JoinTable(
+            name = "history",
+            joinColumns = @JoinColumn(name = "people_id"),
+            inverseJoinColumns = @JoinColumn(name = "serie_id")
+    )
+    private Set<Series> series = new HashSet<>();
 
     public int getId() {
         return id;

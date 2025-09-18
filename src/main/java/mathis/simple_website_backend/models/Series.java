@@ -2,6 +2,9 @@ package mathis.simple_website_backend.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Series {
 
@@ -12,6 +15,9 @@ public class Series {
     private String genre;
     private int nbEpisodes;
     private float note;
+
+    @ManyToMany(mappedBy = "series")
+    private Set<People> peoples = new HashSet<>();
 
     public int getId() {
         return id;
