@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import mathis.simple_website_backend.models.People;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -59,5 +60,23 @@ public class SeriesController {
         } else {
             return seriesRepository.findSeriesByGenreIgnoreCase(genre);
         }
+    }
+
+
+    @GetMapping("/episodePlusGrand")
+    public List<Series> findByNbEpisodesGreaterThanEqual(@RequestParam int EpisodesActuelle) {
+        List<Series> tout = seriesRepository.findAll();
+        List<Series> resultat = new ArrayList<>();
+        for (Series j : tout) {
+            if (j.getNbEpisodes() >= EpisodesActuelle) {
+                resultat.add(j);
+            }
+        }
+        return resultat;
+    }
+
+    @GetMapping("/titre/{titre}")
+    public Series getSerieByTitre(@RequestParam String titre) {
+        return seriesRepository.findSeriesByTitre(titre);
     }
 }
