@@ -2,6 +2,7 @@ package mathis.simple_website_backend.controller;
 import mathis.simple_website_backend.models.Series;
 import mathis.simple_website_backend.repository.PeopleRepository;
 import mathis.simple_website_backend.repository.SeriesRepository;
+import mathis.simple_website_backend.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +48,16 @@ public class SeriesController {
     public ResponseEntity<Series> deleteSeries(@PathVariable long id) {
         seriesRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public List<Series> search(@RequestParam(required = false) String genre) {
+        List<Series> result;
+        if (genre == null || genre.isEmpty()) {
+            result = SeriesRepository.findAll();
+        } else {
+            result = SeriesRepository.findSeriesByGenre(genre);
+        }
+        return result;
     }
 }
