@@ -11,9 +11,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -75,4 +77,25 @@ public class PeoplesServicesTest {
         assertEquals("Marcus", result.get(1).getPrenom());
         assertEquals("Jocker", result.get(2).getPrenom());
     }
+
+    @Test
+    void testGetHistoryPeople() {
+        int userId = 1;
+
+        People p = new People();
+        p.setId(userId);
+        p.setPrenom("Bobby");
+        p.setLast_name("King");
+        p.setEmail("bobbytheking@king.org");
+        p.setGender(Gender.Male);
+
+        when(peopleRepository.findByIdWithSeries(userId)).thenReturn(Optional.of(p));
+
+        ResponseEntity<People> response = peopleController.getHistory(userId);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("Bobby", response.getBody().getPrenom());
+    }
+
+
 }
