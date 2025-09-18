@@ -10,9 +10,8 @@ import mathis.simple_website_backend.models.People;
 import mathis.simple_website_backend.services.PeopleService;
 
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/people")
@@ -86,5 +85,39 @@ public class PeopleController {
 
         return ResponseEntity.ok(updatedPeople);
     }
+
+    @GetMapping("/{id}/recommendations")
+    public ResponseEntity<Map<String, List<Series>>> getRecommendations(@PathVariable int id) {
+        Optional<People> optionalPeople = peopleRepository.findByIdWithSeries(id);
+        if (optionalPeople.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        People people = optionalPeople.get();
+        Set<Series> seenSeries = people.getSeries();
+
+        Map<String, Long> genreCount = seenSeries.stream()
+                .collect(Collectors.groupingBy(Series::getGenre, Collectors.counting()));
+
+        List<String> topGenres = genreCount.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(3)
+                .map(Map.Entry::getKey)
+                .toList();
+
+        List<Integer> seenIds = seenSeries.stream().map(Series::getId).toList();
+
+        Map<String, List<Series>> recommendations = new HashMap<>();
+        for (String genre : topGenres) {
+            List<Series> recs = seriesRepository.findByGenreIgnoreCaseAndIdNotIn(genre, seenIds)
+                    .stream()
+                    .limit(3)
+                    .toList();
+            recommendations.put(genre, recs);
+        }
+
+        return ResponseEntity.ok(recommendations);
+    }
+
 
 }
