@@ -10,4 +10,9 @@ public interface SeriesRepository extends JpaRepository<Series, Long> {
     public Series findSeriesByTitre(String titre);
     List<Series> findSeriesByGenreIgnoreCase(String genre);
 
+
+    public Series findByNbEpisodesGreaterThanEqual(int nbEpisodes);
+
+
+
 }
