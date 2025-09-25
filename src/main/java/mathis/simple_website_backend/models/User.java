@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class People {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class People {
     @ManyToMany
     @JoinTable(
             name = "history",
-            joinColumns = @JoinColumn(name = "people_id"),
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "serie_id")
     )
     private Set<Series> series = new HashSet<>();
@@ -45,11 +45,11 @@ public class People {
         this.prenom = prenom;
     }
 
-    public String getLast_name() {
+    public String getNom() {
         return name;
     }
 
-    public void setLast_name(String name) {
+    public void setNom(String name) {
         this.name = name;
     }
 

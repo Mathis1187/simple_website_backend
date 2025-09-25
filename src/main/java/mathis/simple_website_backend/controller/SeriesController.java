@@ -1,14 +1,14 @@
 package mathis.simple_website_backend.controller;
 
 import mathis.simple_website_backend.models.Series;
-import mathis.simple_website_backend.repository.PeopleRepository;
+import mathis.simple_website_backend.repository.UserRepository;
 import mathis.simple_website_backend.repository.SeriesRepository;
 import mathis.simple_website_backend.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import mathis.simple_website_backend.models.People;
+import mathis.simple_website_backend.models.User;
 
 
 import java.util.ArrayList;

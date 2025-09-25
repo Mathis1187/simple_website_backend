@@ -1,24 +1,21 @@
 package mathis.simple_website_backend.services;
 
+import jakarta.transaction.Transactional;
 import mathis.simple_website_backend.models.User;
-import mathis.simple_website_backend.models.Series;
 import mathis.simple_website_backend.repository.UserRepository;
-import mathis.simple_website_backend.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SeriesService {
+public class UserService {
 
     @Autowired
-    public SeriesRepository SeriesRepository;
+    public UserRepository userRepository;
 
-    public List<Series> getAllSeries(int id){
-        return SeriesRepository.findAll();
+    public List<User> getAllUser(int id){
+        return userRepository.findAll();
     }
-
-
 
 }

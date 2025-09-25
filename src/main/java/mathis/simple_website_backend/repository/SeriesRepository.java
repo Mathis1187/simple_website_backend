@@ -1,6 +1,6 @@
 package mathis.simple_website_backend.repository;
 
-import mathis.simple_website_backend.models.People;
+import mathis.simple_website_backend.models.User;
 import mathis.simple_website_backend.models.Series;
 import org.springframework.data.jpa.repository.JpaRepository;
 
