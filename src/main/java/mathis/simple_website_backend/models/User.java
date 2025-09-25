@@ -21,6 +21,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    private String password;
+
     @ManyToMany
     @JoinTable(
             name = "history",
@@ -74,5 +76,13 @@ public class User {
 
     public void setSeries(Set<Series> series) {
         this.series = series;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
