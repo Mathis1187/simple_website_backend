@@ -1,74 +1,74 @@
 package mathis.simple_website_backend.controller;
 import mathis.simple_website_backend.models.Series;
-import mathis.simple_website_backend.repository.PeopleRepository;
+import mathis.simple_website_backend.repository.UserRepository;
 import mathis.simple_website_backend.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import mathis.simple_website_backend.models.People;
-import mathis.simple_website_backend.services.PeopleService;
+import mathis.simple_website_backend.models.User;
+import mathis.simple_website_backend.services.UserService;
 
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/people")
+@RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:5173")
-public class PeopleController {
+public class UserController {
     @Autowired
-    private PeopleRepository peopleRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private SeriesRepository  seriesRepository;
 
     @GetMapping("/all")
-    public List<People> getAllPeople() {
-        return peopleRepository.findAll();
+    public List<User> getAllUser() {
+        return userRepository.findAll();
     }
 
-    @PostMapping("/createPeople")
-    public People createPeople(@RequestBody People people) {
-        return peopleRepository.save(people);
+    @PostMapping("/createUser")
+    public User createUser(@RequestBody User user) {
+        return userRepository.save(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<People> updatePeople(@PathVariable long id, @RequestBody People people) {
-        return peopleRepository.findById(id)
+    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
+        return userRepository.findById(id)
                 .map(p -> {
-                    p.setPrenom(people.getPrenom());
-                    p.setLast_name(people.getLast_name());
-                    p.setEmail(people.getEmail());
-                    p.setGender(people.getGender());
+                    p.setPrenom(user.getPrenom());
+                    p.setNom(user.getNom());
+                    p.setEmail(user.getEmail());
+                    p.setGender(user.getGender());
 
-                    People updated = peopleRepository.save(p);
+                    User updated = userRepository.save(p);
                     return ResponseEntity.ok(updated);
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<People> deletePeople(@PathVariable long id) {
-        peopleRepository.deleteById(id);
+    public ResponseEntity<User> deleteUser(@PathVariable long id) {
+        userRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/history")
-    public ResponseEntity<People> getHistory(@PathVariable int id) {
-        return peopleRepository.findByIdWithSeries(id)
+    public ResponseEntity<User> getHistory(@PathVariable int id) {
+        return userRepository.findByIdWithSeries(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/{id}/history/{seriesId}")
-    public ResponseEntity<People> addSeriesVueHistory(@PathVariable int id, @PathVariable long seriesId) {
-        Optional<People> optionalPeople = peopleRepository.findByIdWithSeries(id);
-        if (optionalPeople.isEmpty()) {
+    public ResponseEntity<User> addSeriesVueHistory(@PathVariable int id, @PathVariable long seriesId) {
+        Optional<User> optionalUser = userRepository.findByIdWithSeries(id);
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        People people = optionalPeople.get();
+        User user = optionalUser.get();
 
         Optional<Series> optionalSeries = seriesRepository.findById(seriesId);
         if (optionalSeries.isEmpty()) {
@@ -77,24 +77,24 @@ public class PeopleController {
 
         Series series = optionalSeries.get();
 
-        if (!people.getSeries().contains(series)) {
-            people.getSeries().add(series);
+        if (!user.getSeries().contains(series)) {
+            user.getSeries().add(series);
         }
 
-        People updatedPeople = peopleRepository.save(people);
+        User updatedUser = userRepository.save(user);
 
-        return ResponseEntity.ok(updatedPeople);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping("/{id}/recommendations")
     public ResponseEntity<Map<String, List<Series>>> getRecommendations(@PathVariable int id) {
-        Optional<People> optionalPeople = peopleRepository.findByIdWithSeries(id);
-        if (optionalPeople.isEmpty()) {
+        Optional<User> optionalUser = userRepository.findByIdWithSeries(id);
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        People people = optionalPeople.get();
-        Set<Series> seenSeries = people.getSeries();
+        User user = optionalUser.get();
+        Set<Series> seenSeries = user.getSeries();
 
         Map<String, Long> genreCount = seenSeries.stream()
                 .collect(Collectors.groupingBy(Series::getGenre, Collectors.counting()));

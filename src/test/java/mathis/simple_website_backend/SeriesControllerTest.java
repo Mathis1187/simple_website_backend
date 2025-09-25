@@ -1,10 +1,10 @@
 package mathis.simple_website_backend;
 
 
-import mathis.simple_website_backend.controller.PeopleController;
+import mathis.simple_website_backend.controller.UserController;
 import mathis.simple_website_backend.controller.SeriesController;
 import mathis.simple_website_backend.models.Series;
-import mathis.simple_website_backend.repository.PeopleRepository;
+import mathis.simple_website_backend.repository.UserRepository;
 import mathis.simple_website_backend.repository.SeriesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

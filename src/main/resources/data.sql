@@ -1,7 +1,7 @@
 -- ========================
--- People
+-- User
 -- ========================
-INSERT INTO people (id, prenom, name, email, gender)
+INSERT INTO user (id, prenom, name, email, gender)
 VALUES (1, 'Finn', 'Schutt', 'fschutt0@dailymail.co.uk', 'Male'),
        (2, 'Martynne', 'Cauldfield', 'mcauldfield1@ebay.co.uk', 'Female'),
        (3, 'Torre', 'Caldecutt', 'tcaldecutt2@clickbank.net', 'Female'),
@@ -72,7 +72,7 @@ VALUES (1, 'Breaking Bad', 'Drame', 62, 9.5),
 -- History (table de jointure ManyToMany)
 -- ========================
 -- Chaque personne regarde plusieurs séries, et plusieurs personnes regardent la même série
-INSERT INTO history (people_id, serie_id) VALUES
+INSERT INTO history (user_id, serie_id) VALUES
 -- Personne 1
 (1,1),(1,2),(1,3),
 -- Personne 2
