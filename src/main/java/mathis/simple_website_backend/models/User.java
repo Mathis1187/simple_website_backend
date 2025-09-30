@@ -2,15 +2,13 @@ package mathis.simple_website_backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-public class User {
-
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,6 +19,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    private String password;
+
     @ManyToMany
     @JoinTable(
             name = "history",
@@ -28,6 +28,36 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "serie_id")
     )
     private Set<Series> series = new HashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
 
     public int getId() {
         return id;
@@ -74,5 +104,13 @@ public class User {
 
     public void setSeries(Set<Series> series) {
         this.series = series;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
