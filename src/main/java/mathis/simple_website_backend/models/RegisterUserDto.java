@@ -14,6 +14,15 @@ public class RegisterUserDto {
 
     private Gender gender;
 
+    private Series[] series;
+
+    public Series[] getSeries() {
+        return series;
+    }
+
+    public void setSeries(Series[] series) {
+        this.series = series;
+    }
 
     public String getEmail() {
         return email;
