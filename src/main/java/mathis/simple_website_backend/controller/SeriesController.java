@@ -1,6 +1,5 @@
 package mathis.simple_website_backend.controller;
 
-import mathis.simple_website_backend.models.NoteDTO;
 import mathis.simple_website_backend.models.Series;
 import mathis.simple_website_backend.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/series")
@@ -60,5 +60,10 @@ public class SeriesController {
         return seriesService.updateSerieRatingById(id, series)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/trending")
+    public List<Series> getTrending() {
+        return seriesService.getAllSeries().stream().limit(10).collect(Collectors.toList());
     }
 }
