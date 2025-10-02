@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface SeriesRepository extends JpaRepository<Series, Long> {
     public Series findSeriesByTitre(String titre);
-    List<Series> findSeriesByGenreIgnoreCase(String genre);
-    List<Series> findByGenreIgnoreCaseAndIdNotIn(String genre, List<Integer> excludeIds);
+    public List<Series> findSeriesByGenreIgnoreCase(String genre);
+    public List<Series> findByGenreIgnoreCaseAndIdNotIn(String genre, List<Integer> excludeIds);
     public Series findByNbEpisodesGreaterThanEqual(int nbEpisodes);
+    public Series findSeriesById(int id);
 }

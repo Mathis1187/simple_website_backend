@@ -54,6 +54,14 @@ public class SeriesController {
         return seriesService.getSerieByTitre(titre);
     }
 
+
+    @PatchMapping("/ratings/{id}")
+    public ResponseEntity<Series> updateSeriesRatings(@PathVariable long id, @RequestBody Series series) {
+        return seriesService.updateSerieRatingById(id, series)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/trending")
     public List<Series> getTrending() {
         return seriesService.getAllSeries().stream().limit(10).collect(Collectors.toList());
