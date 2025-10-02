@@ -58,7 +58,9 @@ public class Series {
     }
 
     public void setNote(float note) {
-        this.note = note;
+        if (this.note < 10) {
+            this.note = note;
+        }
     }
 
     public Set<User> getUsers() {
@@ -68,4 +70,5 @@ public class Series {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
 }
