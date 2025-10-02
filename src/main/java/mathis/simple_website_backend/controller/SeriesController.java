@@ -1,5 +1,6 @@
 package mathis.simple_website_backend.controller;
 
+import mathis.simple_website_backend.models.NoteDTO;
 import mathis.simple_website_backend.models.Series;
 import mathis.simple_website_backend.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +54,11 @@ public class SeriesController {
         return seriesService.getSerieByTitre(titre);
     }
 
+
+    @PatchMapping("/ratings/{id}")
+    public ResponseEntity<Series> updateSeriesRatings(@PathVariable long id, @RequestBody Series series) {
+        return seriesService.updateSerieRatingById(id, series)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

@@ -1,5 +1,6 @@
 package mathis.simple_website_backend.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import mathis.simple_website_backend.models.Series;
 import mathis.simple_website_backend.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,14 @@ public class SeriesService {
     public Series getSerieByTitre(String titre) {
         return seriesRepository.findSeriesByTitre(titre);
     }
+
+    public Optional<Series> updateSerieRatingById(long id, Series series) {
+        return seriesRepository.findById(id).map(s -> {
+            s.setNote(series.getNote());
+            return seriesRepository.save(s);
+        });
+    }
+
+
+
 }
