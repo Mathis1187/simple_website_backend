@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/series")
@@ -53,4 +54,8 @@ public class SeriesController {
         return seriesService.getSerieByTitre(titre);
     }
 
+    @GetMapping("/trending")
+    public List<Series> getTrending() {
+        return seriesService.getAllSeries().stream().limit(10).collect(Collectors.toList());
+    }
 }
