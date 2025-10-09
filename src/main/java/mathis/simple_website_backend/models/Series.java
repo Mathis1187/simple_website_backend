@@ -19,7 +19,7 @@ public class Series {
 
     @ManyToMany(mappedBy = "series")
     @JsonIgnore
-    private Set<People> peoples = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public int getId() {
         return id;
@@ -58,14 +58,17 @@ public class Series {
     }
 
     public void setNote(float note) {
-        this.note = note;
+        if (this.note < 10) {
+            this.note = note;
+        }
     }
 
-    public Set<People> getPeoples() {
-        return peoples;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setPeoples(Set<People> peoples) {
-        this.peoples = peoples;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
+
 }

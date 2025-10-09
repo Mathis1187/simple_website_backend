@@ -1,82 +1,69 @@
 package mathis.simple_website_backend.controller;
 
 import mathis.simple_website_backend.models.Series;
-import mathis.simple_website_backend.repository.PeopleRepository;
-import mathis.simple_website_backend.repository.SeriesRepository;
 import mathis.simple_website_backend.services.SeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import mathis.simple_website_backend.models.People;
-
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/series")
 @CrossOrigin(origins = "http://localhost:5173")
 public class SeriesController {
     @Autowired
-    private SeriesRepository seriesRepository;
+    private SeriesService seriesService;
 
     @GetMapping("/all")
     public List<Series> getAllSeries() {
-        return seriesRepository.findAll();
+        return seriesService.getAllSeries();
     }
 
     @PostMapping("/createSeries")
     public Series createSeries(@RequestBody Series series) {
-        return seriesRepository.save(series);
+        return seriesService.createSeries(series);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Series> updateSeries(@PathVariable long id, @RequestBody Series series) {
-        return seriesRepository.findById(id)
-                .map(s -> {
-                    s.setTitre(series.getTitre());
-                    s.setGenre(series.getGenre());
-                    s.setNote(series.getNote());
-                    s.setNbEpisodes(series.getNbEpisodes());
-
-                    Series updated = seriesRepository.save(s);
-                    return ResponseEntity.ok(updated);
-                })
+        return seriesService.updateSeries(id, series)
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Series> deleteSeries(@PathVariable long id) {
-        seriesRepository.deleteById(id);
+        seriesService.deleteSeries(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/search")
     public List<Series> search(@RequestParam(required = false) String genre) {
-        if (genre == null || genre.isEmpty()) {
-            return seriesRepository.findAll();
-        } else {
-            return seriesRepository.findSeriesByGenreIgnoreCase(genre);
-        }
+        return seriesService.searchByGenre(genre);
     }
-
 
     @GetMapping("/episodePlusGrand")
     public List<Series> findByNbEpisodesGreaterThanEqual(@RequestParam int EpisodesActuelle) {
-        List<Series> tout = seriesRepository.findAll();
-        List<Series> resultat = new ArrayList<>();
-        for (Series j : tout) {
-            if (j.getNbEpisodes() >= EpisodesActuelle) {
-                resultat.add(j);
-            }
-        }
-        return resultat;
+        return seriesService.findByNbEpisodesGreaterThanEqual(EpisodesActuelle);
     }
 
     @GetMapping("/titre/{titre}")
-    public Series getSerieByTitre(@RequestParam String titre) {
-        return seriesRepository.findSeriesByTitre(titre);
+    public Series getSerieByTitre(@PathVariable String titre) {
+        return seriesService.getSerieByTitre(titre);
+    }
+
+
+    @PatchMapping("/ratings/{id}")
+    public ResponseEntity<Series> updateSeriesRatings(@PathVariable long id, @RequestBody Series series) {
+        return seriesService.updateSerieRatingById(id, series)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/trending")
+    public List<Series> getTrending() {
+        return seriesService.getAllSeries().stream().limit(10).collect(Collectors.toList());
     }
 }
