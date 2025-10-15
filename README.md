@@ -90,10 +90,8 @@ Utilisez-la pour explorer et tester les points d'accès disponibles de manière 
 
 ## Junkins ScrenShot
 
-<video width="600" controls>
-  <source src="JenKinsRecord.mp4" type="video/mp4">
-  Votre navigateur ne supporte pas la vidéo.
-</video>
+[![Voir la vidéo](JenKinsRecord.mp4)
+
 
 
 
