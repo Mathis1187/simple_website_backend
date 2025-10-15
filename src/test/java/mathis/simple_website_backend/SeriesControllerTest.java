@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -57,7 +58,8 @@ public class SeriesControllerTest {
 
         when(seriesService.updateSeries(1L, s1)).thenReturn(java.util.Optional.of(s1));
 
-        Series result = seriesController.updateSeries(1, s1).getBody();
+        ResponseEntity<Series> response = seriesController.updateSeries(1, s1);
+        Series result = response.getBody();
 
         assertEquals("Titre 1 Modifié", result.getTitre());
         assertEquals(9.0f, result.getNote());
@@ -70,8 +72,9 @@ public class SeriesControllerTest {
     void testDeleteSerie() {
         doNothing().when(seriesService).deleteSeries(1L);
 
-        seriesController.deleteSeries(1L);
+        ResponseEntity<Series> response = seriesController.deleteSeries(1L);
 
+        assertEquals(200, response.getStatusCodeValue());
         verify(seriesService, times(1)).deleteSeries(1L);
     }
 
@@ -91,5 +94,69 @@ public class SeriesControllerTest {
         assertEquals("Titre 3", result.get(1).getTitre());
 
         verify(seriesService, times(1)).searchByGenre("Genre 1");
+    }
+
+    @Test
+    void testGetAllSeries() {
+        Series s1 = new Series();
+        Series s2 = new Series();
+        when(seriesService.getAllSeries()).thenReturn(List.of(s1, s2));
+
+        List<Series> result = seriesController.getAllSeries();
+
+        assertEquals(2, result.size());
+        verify(seriesService, times(1)).getAllSeries();
+    }
+
+    @Test
+    void testFindByNbEpisodesGreaterThanEqual() {
+        Series s1 = new Series();
+        s1.setNbEpisodes(5);
+        Series s2 = new Series();
+        s2.setNbEpisodes(10);
+        when(seriesService.findByNbEpisodesGreaterThanEqual(6)).thenReturn(List.of(s2));
+
+        List<Series> result = seriesController.findByNbEpisodesGreaterThanEqual(6);
+
+        assertEquals(1, result.size());
+        assertEquals(10, result.get(0).getNbEpisodes());
+        verify(seriesService, times(1)).findByNbEpisodesGreaterThanEqual(6);
+    }
+
+    @Test
+    void testGetSerieByTitre() {
+        Series s = new Series();
+        s.setTitre("TitreTest");
+        when(seriesService.getSerieByTitre("TitreTest")).thenReturn(s);
+
+        Series result = seriesController.getSerieByTitre("TitreTest");
+
+        assertEquals("TitreTest", result.getTitre());
+        verify(seriesService, times(1)).getSerieByTitre("TitreTest");
+    }
+
+    @Test
+    void testUpdateSeriesRatings() {
+        Series s = new Series();
+        s.setNote(9.5f);
+        when(seriesService.updateSerieRatingById(1L, s)).thenReturn(java.util.Optional.of(s));
+
+        ResponseEntity<Series> response = seriesController.updateSeriesRatings(1, s);
+        Series result = response.getBody();
+
+        assertEquals(9.5f, result.getNote());
+        verify(seriesService, times(1)).updateSerieRatingById(1L, s);
+    }
+
+    @Test
+    void testGetTrending() {
+        Series s1 = new Series();
+        Series s2 = new Series();
+        when(seriesService.getAllSeries()).thenReturn(List.of(s1, s2));
+
+        List<Series> result = seriesController.getTrending();
+
+        assertEquals(2, result.size());
+        verify(seriesService, times(1)).getAllSeries();
     }
 }
